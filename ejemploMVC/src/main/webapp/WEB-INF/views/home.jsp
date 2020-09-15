@@ -19,9 +19,8 @@
 <body>
 	<h1 align="center">LOGIN</h1>
 	<div align="center">
-
-
-		<form action="home">
+ 
+		<form action="login">
 			<div align="center">
 				<table>
 					<tr>
@@ -30,7 +29,7 @@
 					</tr>
 					<tr>
 						<td>Clave:</td>
-						<td><input type="password"></td>
+						<td><input type="password" name="clave"></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center"><input type="submit"

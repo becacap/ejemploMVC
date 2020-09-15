@@ -1,10 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Tabla de movimientos</title>
+<style type="text/css">
+.rojo {
+	color: red;
+}
+
+.negro {
+	color: black;
+}
+</style>
 </head>
 <body>
 	<h1 align="center">LISTADO DE MOVIMIENTOS</h1>
@@ -38,5 +48,6 @@
 
 		</table>
 		<h1 align="center">Saldo: ${saldo}</h1>
+	</div>
 </body>
 </html>

@@ -52,61 +52,62 @@ public class HomeController
 
 		modelAndView.setViewName("home");
 
-		Persona persona=new Persona();
+		Persona persona = new Persona();
 		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
+		modelAndView.addObject("persona", persona);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/",method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
-		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
-		modelAndView.addObject("resultado", resultado);
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home(ModelAndView modelAndView)
+	{
+
 		modelAndView.setViewName("home");
 		return modelAndView;
 	}
-	
-	@RequestMapping("/prueba/{nombre}/{apellido}")
-	public ModelAndView path(@PathVariable("nombre") String nombre, 
-		@PathVariable("apellido") String apellido, 
-			ModelAndView modelAndView){
-		
-		modelAndView.setViewName("home");
-		
-		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
-		modelAndView.addObject("datos",datos);
+
+	@RequestMapping(value = "/login")
+	public ModelAndView login(@RequestParam(required = true, value = "usuario") String usuario,
+			@RequestParam("clave") String clave, ModelAndView modelAndView)
+	{
+
+		if (usuario.equals("Gabri") && clave.equals("Groot"))
+		{
+			List<Movimiento> movimientos = new ArrayList<>();
+			Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
+			Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
+			Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
+			Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
+			Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+
+			movimientos.add(m1);
+			movimientos.add(m2);
+			movimientos.add(m3);
+			movimientos.add(m4);
+			movimientos.add(m5);
+			modelAndView.addObject("movimientos", movimientos);
+
+			modelAndView.setViewName("tabla");
+			
+			
+		} else
+		{
+			String resultado = "El usuario " + usuario + " y la clave " + clave + " son incorrectos";
+			modelAndView.addObject("resultado", resultado);
+			modelAndView.setViewName("home");
+		}
+
 		return modelAndView;
 	}
-	
-	
+
 	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
-		
+	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona)
+	{
+
+		System.out.println("usuario:" + persona.getUsuario());
+		System.out.println("clave:" + persona.getClave());
+
 		return modelAndView;
 	}
-	
-	
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
