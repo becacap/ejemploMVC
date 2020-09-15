@@ -32,7 +32,7 @@ public class HomeController
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView modelAndView)
 	{
 
@@ -58,12 +58,11 @@ public class HomeController
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
-		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
-		modelAndView.addObject("resultado", resultado);
-		modelAndView.setViewName("home");
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public ModelAndView login(ModelAndView modelAndView) {
+		Persona persona=new Persona();
+		modelAndView.addObject("persona",persona);
+		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 	
@@ -85,9 +84,14 @@ public class HomeController
 	
 	@RequestMapping("/rellenado")
 	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
+		if(persona.getUsuario().contentEquals("admin") 
+				&& persona.getClave().contentEquals("12345"))
+			modelAndView = home(modelAndView);
+		else {
+			String datos="Usuario o clave incorrectos. Acceso denegado";
+			modelAndView.addObject("datos",datos);
+			modelAndView = login(modelAndView);
+		}
 		
 		return modelAndView;
 	}
