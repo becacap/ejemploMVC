@@ -32,8 +32,8 @@ public class HomeController
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(ModelAndView modelAndView)
+	@RequestMapping(value = "/tabla", method = RequestMethod.GET)
+	public ModelAndView tabla(ModelAndView modelAndView)
 	{
 
 		List<Movimiento> movimientos = new ArrayList<>();
@@ -58,7 +58,7 @@ public class HomeController
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
+	@RequestMapping(value="/",method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
 		
 		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
@@ -66,9 +66,6 @@ public class HomeController
 		modelAndView.setViewName("home");
 		return modelAndView;
 	}
-	
-	
-	
 	
 	@RequestMapping("/prueba/{nombre}/{apellido}")
 	public ModelAndView path(@PathVariable("nombre") String nombre, 
@@ -84,13 +81,15 @@ public class HomeController
 	
 	
 	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
+	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona) {
 		
 		System.out.println("usuario:"+ persona.getUsuario());
 		System.out.println("clave:"+persona.getClave());
 		
 		return modelAndView;
 	}
+	
+	
 
 }
 
