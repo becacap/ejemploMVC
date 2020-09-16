@@ -30,41 +30,38 @@ body {
 </head>
 <body>
 
-	<h1 align="center">LISTADO DE MOVIMIENTOS</h1>
-	<BR>
+	<div class="jumbotron">
+		<h1 class="display-4">LISTADO DE MOVIMIENTOS</h1>
+	</div>
 
-	<div align="center">
+	<table border="1" class="table table-striped table-dark">
+		<tr>
+			<td align="center"><a href="orderByDate">FECHA</a></td>
+			<td align="center"><a href="orderByConcept">CONCEPTO</a></td>
+			<td align="center"><a href="orderByImport">IMPORTE</a></td>
+		</tr>
+		<c:set var="estilo" value="negro"></c:set>
+		<c:set var="saldo" value="0" />
+		<c:forEach items="${movimientos}" var="movimiento">
+			<c:set var="saldo" value="${saldo+movimiento.importe}" />
 
+			<c:if test="${movimiento.importe lt 0 }">
+				<c:set var="estilo" value="rojo" />
+			</c:if>
 
-		<table border="1" class="table table-striped table-dark">
 			<tr>
-				<td align="center"><a href="orderByDate">FECHA</a></td>
-				<td align="center"><a href="orderByConcept">CONCEPTO</a></td>
-				<td align="center"><a href="orderByImport">IMPORTE</a></td>
+				<td align="center">${movimiento.fecha}</td>
+				<td align="center">${movimiento.concepto}</td>
+				<td align="center" class="${estilo} }">${movimiento.importe}</td>
 			</tr>
-			<c:set var="estilo" value="negro"></c:set>
-			<c:set var="saldo" value="0" />
-			<c:forEach items="${movimientos}" var="movimiento">
-				<c:set var="saldo" value="${saldo+movimiento.importe}" />
+			<c:set var="estilo" value="negro" />
+		</c:forEach>
 
-				<c:if test="${movimiento.importe lt 0 }">
-					<c:set var="estilo" value="rojo" />
-				</c:if>
+	</table>
 
-				<tr>
-					<td align="center">${movimiento.fecha}</td>
-					<td align="center">${movimiento.concepto}</td>
-					<td align="center" class="${estilo} }">${movimiento.importe}</td>
-				</tr>
-				<c:set var="estilo" value="negro" />
-			</c:forEach>
-
-		</table>
-		<h1 align="center">Saldo: ${saldo}</h1>
-
-		<h1 align="center">${resultado }</h1>
-		<h1 align="center">${datos }</h1>
-
+	<div class="jumbotron">
+		<h1 class="display-4">Saldo: ${saldo}</h1>
+		<p class="lead">${resultado }</p>
 	</div>
 </html>
 
