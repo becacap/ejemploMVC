@@ -4,7 +4,24 @@ public class Movimiento
 {
 	private String fecha,concepto;
 	private int importe;
+	private char debe, haber;
 	
+	public char getDebe()
+	{
+		return debe;
+	}
+	public void setDebe(char debe)
+	{
+		this.debe = debe;
+	}
+	public char getHaber()
+	{
+		return haber;
+	}
+	public void setHaber(char haber)
+	{
+		this.haber = haber;
+	}
 	public Movimiento(String fecha, String concepto,int importe) {
 		this.fecha=fecha;
 		this.concepto=concepto;

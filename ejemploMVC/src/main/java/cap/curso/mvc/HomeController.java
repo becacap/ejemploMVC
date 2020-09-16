@@ -118,7 +118,7 @@ public class HomeController
 		String jorgeUsuario = "jtorresm";
 		String jorgeClave = "123456";
 		
-		if((persona.getUsuario() == jorgeUsuario) && (persona.getClave() == jorgeClave)) {
+		if((persona.getUsuario().equals(jorgeUsuario)) && (persona.getClave().contentEquals(jorgeClave))) {
 			System.out.println("Login Correcto");
 			
 			modelAndView.setViewName("loginCorrecto");
@@ -136,6 +136,16 @@ public class HomeController
 			movimientos.add(m4);
 			movimientos.add(m5);
 			modelAndView.addObject("movimientos", movimientos);
+			
+			for(Movimiento movimiento: movimientos) {
+				if(movimiento.getImporte()<0){
+					movimiento.setDebe('X');
+					movimiento.setHaber(' ');
+				}else {
+					movimiento.setDebe(' ');
+					movimiento.setHaber('X');
+				}
+			}
 
 			modelAndView.addObject("persona",persona);
 			return modelAndView;
