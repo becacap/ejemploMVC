@@ -28,7 +28,8 @@
 			<tr>
 				<td align="center">FECHA</td>
 				<td align="center">CONCEPTO</td>
-				<td align="center">IMPORTE</td>
+				<td align="center">DEBE</td>
+				<td align="center">HABER</td>
 			</tr>
 			<c:set var="estilo" value="negro"></c:set>
 			<c:set var="saldo" value="0" />
@@ -42,7 +43,23 @@
 				<tr>
 					<td align="center">${movimiento.fecha}</td>
 					<td align="center">${movimiento.concepto}</td>
-					<td align="center" class="${estilo} }">${movimiento.importe}</td>
+					<c:choose>
+					<c:when test="${movimiento.importe ge 0 }">
+						<td align="center">0</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center" class="${estilo}">${movimiento.importe}</td>
+					</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+					<c:when test="${movimiento.importe lt 0 }">
+						<td align="center">0</td>
+					</c:when>
+					<c:otherwise>
+						<td align="center" class="${estilo}">${movimiento.importe}</td>
+					</c:otherwise>
+					</c:choose>
 				</tr>
 				<c:set var="estilo" value="negro" />
 			</c:forEach>
@@ -72,8 +89,8 @@
 			</div>
 
 		</spring:form>
-		<h1 align="center">${resultado }</h1>
-		<h1 align="center">${datos }</h1>
+		<h1 align="center">${resultado}</h1>
+		<h1 align="center">${datos}</h1>
 
 	</div>
 </html>
