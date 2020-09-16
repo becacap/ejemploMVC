@@ -26,9 +26,8 @@ import cap.curso.mvc.beans.Persona;
 @Controller
 public class HomeController
 {
-
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
+	int flag = 0;
+	int intentos = 3;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -152,6 +151,14 @@ public class HomeController
 		}else {
 			modelAndView.setViewName("loginIncorrecto");
 			System.out.println("Login Incorrecto");
+			
+			if(flag > 1) {
+				modelAndView.setViewName("bloqueo");
+			}
+			flag++;
+			intentos = intentos - 1;
+			System.out.println("flag: " +flag);
+			System.out.println("intentos: " +intentos);
 			return modelAndView;
 		}
 		
@@ -159,7 +166,11 @@ public class HomeController
 		
 	}
 	
-
+	@RequestMapping(value = "/OrdenarFecha", method = RequestMethod.GET)
+	public ModelAndView ordenarFecha(ModelAndView modelAndView) {
+		return modelAndView;
+	}
+	
 	
 	
 }
