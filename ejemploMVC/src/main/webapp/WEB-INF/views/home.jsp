@@ -6,27 +6,14 @@
 <html>
 <head>
 <link
-	href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
 	rel="stylesheet">
+<link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 <title>Home</title>
-
-<style type="text/css">
-body {
-	font-family: 'Mukta', sans-serif;
-}
-
-.rojo {
-	color: red;
-}
-
-.negro {
-	color: green;
-}
-</style>
 </head>
 <body>
 
@@ -38,6 +25,7 @@ body {
 		<tr>
 			<td align="center"><a href="orderByDate">FECHA</a></td>
 			<td align="center"><a href="orderByConcept">CONCEPTO</a></td>
+
 			<td align="center"><a href="orderByImport">IMPORTE</a></td>
 		</tr>
 		<c:set var="estilo" value="negro"></c:set>
