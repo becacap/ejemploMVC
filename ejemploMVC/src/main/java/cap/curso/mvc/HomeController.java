@@ -1,10 +1,14 @@
 package cap.curso.mvc;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +32,13 @@ public class HomeController
 {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private int login = 0; // 0 si no ha iniciado sesion 1 si se ha iniciado.
+	private List<Movimiento> movimientos = new ArrayList<>();
+	private ModelAndView modelAndView = new ModelAndView();
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(ModelAndView modelAndView)
+	
+	public HomeController()
 	{
-
-		List<Movimiento> movimientos = new ArrayList<>();
 		Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
 		Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
 		Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
@@ -48,66 +50,107 @@ public class HomeController
 		movimientos.add(m3);
 		movimientos.add(m4);
 		movimientos.add(m5);
+	}
+//	##########   HOME  #######################
+	@RequestMapping(value = "/")
+	public ModelAndView test(HttpServletResponse response) throws IOException
+	{
+		if (login == 0)
+		{
+			modelAndView.setViewName("login");
+
+		} else
+		{
+			modelAndView.setViewName("redirect:/home");
+		}
+		return modelAndView;
+	}
+//	##########   LOGIN CHECK #######################
+	@RequestMapping("/login")
+	public ModelAndView login(@RequestParam(required = true, value = "usuario") String usuario,
+			@RequestParam(required = true, value = "clave") String clave, ModelAndView modelAndView)
+	{
+
+		String key = "1234";
+		if (usuario.equals(key) && clave.equals(key))
+		{
+			login = 1;
+			modelAndView.setViewName("redirect:home");
+		} else
+		{
+			modelAndView.addObject("resultado", "Usuario Y/O contraseña incorrectos.");
+			modelAndView.setViewName("login");
+		}
+
+		return modelAndView;
+	}
+//	##########   INICIADO  #######################
+	@RequestMapping("/home")
+	public ModelAndView home(ModelAndView modelAndView, Persona persona)
+	{
+		Persona pers = new Persona();
+		pers.setUsuario("nombre prueba");
+		modelAndView.addObject("persona", pers);
 		modelAndView.addObject("movimientos", movimientos);
-
-		modelAndView.setViewName("home");
-
-		Persona persona=new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
-		return modelAndView;
-	}
-	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
-		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
-		modelAndView.addObject("resultado", resultado);
 		modelAndView.setViewName("home");
 		return modelAndView;
 	}
-	
-	
-	
-	
-	@RequestMapping("/prueba/{nombre}/{apellido}")
-	public ModelAndView path(@PathVariable("nombre") String nombre, 
-		@PathVariable("apellido") String apellido, 
-			ModelAndView modelAndView){
-		
-		modelAndView.setViewName("home");
-		
-		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
-		modelAndView.addObject("datos",datos);
+//	##########   logout  #######################
+	@RequestMapping("/logout")
+	public ModelAndView logout(ModelAndView modelAndView)
+	{
+		login=0;
+		modelAndView.setViewName("redirect:/");
 		return modelAndView;
 	}
-	
 	
 	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
-		
+	public ModelAndView relleno(ModelAndView modelAndView, Persona persona)
+	{
+		System.out.println(persona.getUsuario() + " " + persona.getClave());
+		modelAndView.setViewName("home");
 		return modelAndView;
 	}
-
+//	##########   sortFecha  #######################
+	@RequestMapping("/sfecha")
+	public ModelAndView sortFecha(ModelAndView modelAndView) {
+		modelAndView.setViewName("redirect:home");
+		
+		movimientos.sort(new Comparator<Movimiento>() {
+			  @Override
+			  public int compare(Movimiento u1, Movimiento u2) {
+			    return u1.getFecha().compareTo(u2.getFecha());
+			  }
+			});
+		return modelAndView;
+		
+	}
+	
+//	##########   sortConcepto  #######################
+	@RequestMapping("/sconcepto")
+	public ModelAndView sortConcepto(ModelAndView modelAndView) {
+		modelAndView.setViewName("redirect:home");
+		movimientos.sort(new Comparator<Movimiento>() {
+			  @Override
+			  public int compare(Movimiento u1, Movimiento u2) {
+			    return u1.getConcepto().compareTo(u2.getConcepto());
+			  }
+			});
+		return modelAndView;
+		
+	}
+	
+//	##########   sortImporte  #######################
+	@RequestMapping("/simporte")
+	public ModelAndView sortImporte(ModelAndView modelAndView) {
+		modelAndView.setViewName("redirect:home");
+		movimientos.sort(new Comparator<Movimiento>() {
+			  @Override
+			  public int compare(Movimiento u1, Movimiento u2) {
+			    return u1.getImporte()-(u2.getImporte());
+			  }
+			});
+		return modelAndView;
+		
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

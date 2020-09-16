@@ -1,11 +1,15 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring"
-	uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form"
+	prefix="spring"%>
 <%@ page session="false"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home</title>
-
 <style type="text/css">
 .rojo {
 	color: red;
@@ -17,82 +21,35 @@
 </style>
 </head>
 <body>
-
-	<h1 align="center">LISTADO DE MOVIMIENTOS</h1>
-	<BR>
-
+	<h1 align="center">Datos de la cuenta</h1>
+	<br>
+	<div align="right"><a href="logout">Cerrar Sesion</a></div>
+	
+	<br>
+	<a>Buenas, ${persona.usuario}</a>
 	<div align="center">
-
-
 		<table border="1">
 			<tr>
-				<td align="center">FECHA</td>
-				<td align="center">CONCEPTO</td>
-				<td align="center">IMPORTE</td>
+				<td> <a href="sfecha">FECHA</a></td>
+				<td><a href="sconcepto">CONCEPTO</a></td>
+				<td><a href="simporte">IMPORTE</a></td>
 			</tr>
 			<c:set var="estilo" value="negro"></c:set>
-			<c:set var="saldo" value="0" />
-			<c:forEach items="${movimientos}" var="movimiento">
-				<c:set var="saldo" value="${saldo+movimiento.importe}" />
 
-				<c:if test="${movimiento.importe lt 0 }">
-					<c:set var="estilo" value="rojo" />
+			<c:forEach items="${movimientos}" var="movimientos">
+				<c:if test="${movimientos.importe lt 0}">
+					<c:set var="estilo" value="rojo"></c:set>
 				</c:if>
-
 				<tr>
-					<td align="center">${movimiento.fecha}</td>
-					<td align="center">${movimiento.concepto}</td>
-					<td align="center" class="${estilo} }">${movimiento.importe}</td>
+					<td>${movimientos.fecha}</td>
+					<td>${movimientos.concepto}</td>
+					<td class="${estilo}">${movimientos.importe}</td>
 				</tr>
-				<c:set var="estilo" value="negro" />
+				<c:set var="estilo" value="negro"></c:set>
 			</c:forEach>
-
 		</table>
-		<h1 align="center">Saldo: ${saldo}</h1>
-
-
-		<spring:form action="rellenado" modelAttribute="persona">
-			<div align="center">
-				<table>
-					<tr>
-						<td>Usuario:</td>
-						<td><spring:input path="usuario"/> </td>
-					</tr>
-					<tr>
-						<td>Clave:</td>
-						<td><spring:password path="clave"/> </td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center"><input type="submit"
-							value="registro"></td>
-
-					</tr>
-
-				</table>
-			</div>
-
-		</spring:form>
-		<h1 align="center">${resultado }</h1>
-		<h1 align="center">${datos }</h1>
-
 	</div>
+	<br>
+	<br>
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
