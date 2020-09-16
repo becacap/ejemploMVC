@@ -45,6 +45,10 @@ public class HomeController {
 	movimientos.add(m4);
 	movimientos.add(m5);
     }
+    
+    public void setMovimientos(List<Movimiento> movimientos) {
+	this.movimientos = movimientos;
+    }
 
     /***********************************************************************************************************/
     // LOGIN
@@ -68,8 +72,8 @@ public class HomeController {
 	    @RequestParam(value = "password", required = false) String password, ModelAndView modelAndView) {
 
 	if (usuario.equals("cristofer") && password.equals("12345")) {
-	    logger.info("Usuario y contraseña correctos");
-	    System.out.println("Usuario y contraseña correctos");
+	    logger.info("Usuario y contraseÃ±a correctos");
+	    System.out.println("Usuario y contraseÃ±a correctos");
 
 	    // String resultado = "Has escrito el usuario " + usuario + " y la clave " +
 	    // password;
@@ -81,10 +85,10 @@ public class HomeController {
 	    // modelAndView.addObject("resultado", resultado);
 
 	} else {
-	    logger.error("Usuario o contraseña incorrectos");
-	    System.out.println("Usuario o contraseña incorrectos");
+	    logger.error("Usuario o contraseÃ±a incorrectos");
+	    System.out.println("Usuario o contraseÃ±a incorrectos");
 
-	    String resultado = "Usuario o contraseña incorrectos";
+	    String resultado = "Usuario o contraseÃ±a incorrectos";
 
 	    modelAndView.setViewName("login");
 	    modelAndView.addObject("loginIncorrecto", resultado);

@@ -7,5 +7,9 @@ body {
 }
 
 .negro {
-	color: green;
+	color: lime;
+}
+
+td>a {
+	transition: all 0.4s ease;
 }

@@ -18,7 +18,7 @@
 <body>
 
 	<div class="jumbotron">
-		<h1 class="display-4">LISTADO DE MOVIMIENTOS</h1>
+		<h1 class="display-4"><strong>LISTADO DE MOVIMIENTOS</strong></h1>
 	</div>
 
 	<table border="1" class="table table-striped table-dark">
