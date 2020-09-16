@@ -19,7 +19,7 @@
 <body>
 	<h1 align="center">LOGIN</h1>
 	<div align="center">
- 
+		<!-- FORMULARIO CUANDO NO SE HACE USO DE UN OBJETO
 		<form action="login">
 			<div align="center">
 				<table>
@@ -41,6 +41,31 @@
 			</div>
 
 		</form>
+		-->
+
+		<!-- FORMULARIO CUANDO SE UTILIZA UN OBJETO -->
+		<spring:form action="loginObjeto" modelAttribute="persona">
+			<div align="center">
+				<table>
+					<tr>
+						<td>Usuario:</td>
+						<td><spring:input path="usuario"/> </td>
+					</tr>
+					<tr>
+						<td>Clave:</td>
+						<td><spring:password path="clave"/> </td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><input type="submit"
+							value="registro"></td>
+
+					</tr>
+
+				</table>
+			</div>
+
+		</spring:form>
+
 		<h1 align="center">${resultado }</h1>
 		<h1 align="center">${datos }</h1>
 

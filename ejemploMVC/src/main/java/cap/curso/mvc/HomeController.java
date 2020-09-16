@@ -32,35 +32,32 @@ public class HomeController
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/tabla", method = RequestMethod.GET)
-	public ModelAndView tabla(ModelAndView modelAndView)
-	{
-
-		List<Movimiento> movimientos = new ArrayList<>();
-		Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
-		Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
-		Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
-		Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
-		Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
-
-		movimientos.add(m1);
-		movimientos.add(m2);
-		movimientos.add(m3);
-		movimientos.add(m4);
-		movimientos.add(m5);
-		modelAndView.addObject("movimientos", movimientos);
-
-		modelAndView.setViewName("home");
-
-		Persona persona = new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona", persona);
-		return modelAndView;
-	}
+	/*
+	 * @RequestMapping(value = "/tabla", method = RequestMethod.GET) public
+	 * ModelAndView tabla(ModelAndView modelAndView) {
+	 * 
+	 * List<Movimiento> movimientos = new ArrayList<>(); Movimiento m1 = new
+	 * Movimiento("01/01/2020", "Ingreso", 100); Movimiento m2 = new
+	 * Movimiento("05/01/2020", "Pago tarjeta", -50); Movimiento m3 = new
+	 * Movimiento("09/01/2020", "recibo luz", -25); Movimiento m4 = new
+	 * Movimiento("15/01/2020", "Ingreso nomina", 5000); Movimiento m5 = new
+	 * Movimiento("21/01/2020", "Compra bici", -1500);
+	 * 
+	 * movimientos.add(m1); movimientos.add(m2); movimientos.add(m3);
+	 * movimientos.add(m4); movimientos.add(m5);
+	 * modelAndView.addObject("movimientos", movimientos);
+	 * 
+	 * modelAndView.setViewName("home");
+	 * 
+	 * Persona persona = new Persona(); persona.setUsuario("alumno del curso");
+	 * modelAndView.addObject("persona", persona); return modelAndView; }
+	 */
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView modelAndView)
 	{
+		Persona persona = new Persona();
+		modelAndView.addObject("persona", persona);
 
 		modelAndView.setViewName("home");
 		return modelAndView;
@@ -88,8 +85,7 @@ public class HomeController
 			modelAndView.addObject("movimientos", movimientos);
 
 			modelAndView.setViewName("tabla");
-			
-			
+
 		} else
 		{
 			String resultado = "El usuario " + usuario + " y la clave " + clave + " son incorrectos";
@@ -100,14 +96,47 @@ public class HomeController
 		return modelAndView;
 	}
 
-	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona)
+	@RequestMapping("/loginObjeto")
+	public ModelAndView loginObjeto(ModelAndView modelAndView, Persona persona)
 	{
 
 		System.out.println("usuario:" + persona.getUsuario());
 		System.out.println("clave:" + persona.getClave());
 
+		if (persona.getUsuario().equals("gabri") && persona.getClave().equals("groot"))
+		{
+			List<Movimiento> movimientos = new ArrayList<>();
+			Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
+			Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
+			Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
+			Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
+			Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+
+			movimientos.add(m1);
+			movimientos.add(m2);
+			movimientos.add(m3);
+			movimientos.add(m4);
+			movimientos.add(m5);
+			modelAndView.addObject("movimientos", movimientos);
+
+			modelAndView.setViewName("tabla");
+
+		} else
+		{
+			String resultado = "El usuario " + persona.getUsuario() + " y la clave " + persona.getClave() + " son incorrectos";
+			modelAndView.addObject("resultado", resultado);
+			modelAndView.setViewName("home");
+		}
+		
 		return modelAndView;
 	}
+
+	/*
+	 * public ModelAndView ordenarFecha(ModelAndView modelAndView) {
+	 * 
+	 * 
+	 * 
+	 * modelAndView.setViewName("tabla"); return modelAndView; }
+	 */
 
 }
