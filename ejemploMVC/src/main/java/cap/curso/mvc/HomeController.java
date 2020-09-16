@@ -2,6 +2,8 @@ package cap.curso.mvc;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,87 +29,179 @@ import cap.curso.mvc.beans.Persona;
 public class HomeController
 {
 
+	private String usuario;
+	private String password;
+	private List<Movimiento> movimientos;
+
+	Persona persona;
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(ModelAndView modelAndView)
+	public HomeController()
 	{
+		usuario = "";
+		password = "";
+		movimientos = new ArrayList<>();
 
-		List<Movimiento> movimientos = new ArrayList<>();
-		Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
-		Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
-		Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
-		Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
-		Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+		Movimiento m1 = new Movimiento("03/05/2020", "Ingreso", 100);
+		Movimiento m2 = new Movimiento("01/01/2020", "Pago tarjeta", -50);
+		Movimiento m3 = new Movimiento("09/03/2020", "recibo luz", -25);
+		Movimiento m4 = new Movimiento("15/11/2020", "Ingreso nomina", 5000);
+		Movimiento m5 = new Movimiento("21/07/2020", "Compra bici", -1500);
 
 		movimientos.add(m1);
 		movimientos.add(m2);
 		movimientos.add(m3);
 		movimientos.add(m4);
 		movimientos.add(m5);
+		persona = new Persona();
+		persona.setUsuario("");
+	}
+
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView loginGET(ModelAndView modelAndView)
+	{
+
+		modelAndView.addObject("persona", persona);
+		modelAndView.setViewName("login");
+
+		// Persona persona = new Persona();
+		// persona.setUsuario("alumno del curso");
+		// modelAndView.addObject("persona", persona);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam(required = true, value = "usuario") String usuario,
+			@RequestParam("clave") String clave, ModelAndView modelAndView)
+	{
+
+		String logError = "";
+		modelAndView.addObject("persona", persona);
+		if (usuario.equals("carlos") && clave.equals("1234"))
+		{
+			modelAndView.addObject("usuario", usuario);
+			modelAndView.setViewName("redirect:operations");
+			this.usuario = usuario;
+			this.password = clave;
+		} else
+		{
+			modelAndView.setViewName("login");
+			logError = "El usuario o la contraseña no son correctos";
+		}
+
+		modelAndView.addObject("logError", logError);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/operations", method = RequestMethod.GET)
+	public ModelAndView operations(ModelAndView modelAndView)
+	{
+
+		modelAndView.setViewName("operations");
+
 		modelAndView.addObject("movimientos", movimientos);
 
-		modelAndView.setViewName("home");
+		Persona persona = new Persona();
+		persona.setUsuario("");
+		modelAndView.addObject("persona", persona);
 
-		Persona persona=new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
-		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
-		modelAndView.addObject("resultado", resultado);
-		modelAndView.setViewName("home");
+
+	@RequestMapping("/sortDate")
+	public ModelAndView sortDate(ModelAndView modelAndView)
+	{
+		modelAndView.setViewName("redirect:operations");
+		movimientos.sort(new Comparator<Movimiento>()
+		{
+			@Override
+			public int compare(Movimiento o1, Movimiento o2)
+			{
+				return o1.getFecha().compareTo(o2.getFecha());
+			}
+		});
+
 		return modelAndView;
 	}
-	
-	
-	
-	
-	@RequestMapping("/prueba/{nombre}/{apellido}")
-	public ModelAndView path(@PathVariable("nombre") String nombre, 
-		@PathVariable("apellido") String apellido, 
-			ModelAndView modelAndView){
-		
-		modelAndView.setViewName("home");
-		
-		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
-		modelAndView.addObject("datos",datos);
+
+	@RequestMapping("/sortConcept")
+	public ModelAndView sortConcept(ModelAndView modelAndView)
+	{
+		modelAndView.setViewName("redirect:operations");
+		movimientos.sort(new Comparator<Movimiento>()
+		{
+			@Override
+			public int compare(Movimiento o1, Movimiento o2)
+			{
+				return o1.getConcepto().compareTo(o2.getConcepto());
+			}
+		});
+
 		return modelAndView;
 	}
-	
-	
-	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
-		
+
+	@RequestMapping("/sortImportValue")
+	public ModelAndView sortImportValue(ModelAndView modelAndView)
+	{
+		modelAndView.setViewName("redirect:operations");
+		movimientos.sort(new Comparator<Movimiento>()
+		{
+			@Override
+			public int compare(Movimiento o1, Movimiento o2)
+			{
+
+				int result = 0;
+				int iA = o1.getImporte();
+				int iB = o2.getImporte();
+				if (iA < iB)
+					result = -1;
+				else
+					result = 1;
+
+				return result;
+			}
+		});
+
 		return modelAndView;
 	}
+
+	/*
+	 * @RequestMapping("/rellenado") public ModelAndView rellenado(ModelAndView
+	 * modelAndView, Persona persona) {
+	 * 
+	 * 
+	 * String logError = "";
+	 * 
+	 * if (persona.getUsuario().equals("formacion") &&
+	 * persona.getClave().equals("1234")) { modelAndView.addObject("usuario",
+	 * persona.getUsuario()); modelAndView.setViewName("transacciones"); } else {
+	 * modelAndView.setViewName("home"); logError =
+	 * "El usuario o la contraseña no son correctos"; }
+	 * 
+	 * modelAndView.addObject("logError", logError);
+	 * 
+	 * return modelAndView;
+	 * 
+	 * }
+	 */
+
+	/*
+	 * @RequestMapping("/prueba/{nombre}/{apellido}") public ModelAndView
+	 * path(@PathVariable("nombre") String nombre,
+	 * 
+	 * @PathVariable("apellido") String apellido, ModelAndView modelAndView){
+	 * 
+	 * 
+	 * 
+	 * modelAndView.setViewName("home");
+	 * 
+	 * String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
+	 * modelAndView.addObject("datos",datos); return modelAndView; }
+	 */
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
