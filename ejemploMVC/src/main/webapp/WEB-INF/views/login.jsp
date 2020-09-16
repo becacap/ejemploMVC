@@ -190,6 +190,11 @@ a {
 	text-decoration: none;
 	color: #2c7715;
 }
+
+#loginFail {
+	color:red;
+	margin-top:3%;
+}
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -249,7 +254,7 @@ a {
 						type="password" placeholder="Contraseña" name="password">
 					<input type="submit" value="Login"> <a href="login">¿Olvidaste
 						la contraseña?</a>
-					<p>${loginIncorrecto}</p>
+					<p id="loginFail">${loginIncorrecto}</p>
 				</form>
 			</div>
 
