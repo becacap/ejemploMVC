@@ -105,34 +105,6 @@ public class HomeController
 		return modelAndView;
 	}
 	
-	@RequestMapping("/tabla")
-	public ModelAndView tabla(ModelAndView modelAndView, Persona persona, @RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave) {
-		
-		List<Movimiento> movimientos = new ArrayList<>();
-		Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
-		Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
-		Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
-		Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
-		Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
-
-		movimientos.add(m1);
-		movimientos.add(m2);
-		movimientos.add(m3);
-		movimientos.add(m4);
-		movimientos.add(m5);
-		
-		/*Set<Cuenta> cuentas = new HashSet<>();
-		Cuenta c1 = new Cuenta("Paco", "50435678c", movimientos);
-		Cuenta c2 = new Cuenta("Pedro", "55445173z", movimientos);
-		cuentas.add(c1);
-		cuentas.add(c2);*/
-		
-		
-
-		modelAndView.setViewName("rellenado");
-
-		return modelAndView;
-	}
 	
 	
 
