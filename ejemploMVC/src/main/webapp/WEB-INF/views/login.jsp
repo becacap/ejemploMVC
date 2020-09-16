@@ -45,7 +45,7 @@
 
 		</spring:form>
 		<c:set var="estilo" value="rojo"></c:set>
-		<h2 align="center">${datos}</h2>
+		<h2 align="center" class="${estilo} }">${datos}</h2>
 
 	</div>
 </html>

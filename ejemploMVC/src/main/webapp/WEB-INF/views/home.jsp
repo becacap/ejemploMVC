@@ -26,9 +26,9 @@
 
 		<table border="1">
 			<tr>
-				<td align="center">FECHA</td>
-				<td align="center">CONCEPTO</td>
-				<td align="center">IMPORTE</td>
+				<td align="center"><a href="orderByDate">FECHA</a></td>
+				<td align="center"><a href="orderByConcept">CONCEPTO</a></td>
+				<td align="center"><a href="orderByImport">IMPORTE</a></td>
 			</tr>
 			<c:set var="estilo" value="negro"></c:set>
 			<c:set var="saldo" value="0" />
@@ -50,28 +50,6 @@
 		</table>
 		<h1 align="center">Saldo: ${saldo}</h1>
 
-
-		<spring:form action="rellenado" modelAttribute="persona">
-			<div align="center">
-				<table>
-					<tr>
-						<td>Usuario:</td>
-						<td><spring:input path="usuario"/> </td>
-					</tr>
-					<tr>
-						<td>Clave:</td>
-						<td><spring:password path="clave"/> </td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center"><input type="submit"
-							value="registro"></td>
-
-					</tr>
-
-				</table>
-			</div>
-
-		</spring:form>
 		<h1 align="center">${resultado }</h1>
 		<h1 align="center">${datos }</h1>
 
