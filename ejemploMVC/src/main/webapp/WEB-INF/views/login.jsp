@@ -46,6 +46,7 @@
 		<div class="white-panel">
 			<div class="login-show">
 				<h2>LOGIN</h2>
+				<!--  
 				<form action="login" method="POST">
 					<input type="text" placeholder="Nombre" name="usuario"> <input
 						type="password" placeholder="Contraseña" name="password">
@@ -53,6 +54,17 @@
 						la contraseña?</a>
 					<p id="loginFail">${loginIncorrecto}</p>
 				</form>
+				-->
+
+				<!-- FORMULARIO DE SPRING QUE RELLENA EL OBJETO PASADO DESDE EL CONTROLLER -->
+				<spring:form action="login2" method="POST" modelAttribute="persona">
+					<spring:input placeholder="Nombre" path="usuario" />
+					<spring:password placeholder="Contraseña" path="clave" />
+					<input type="submit" value="Login">
+					<a href="login">¿Olvidaste la contraseña?</a>
+					<p id="loginFail">${loginIncorrecto}</p>
+				</spring:form>
+
 			</div>
 
 			<div class="register-show">

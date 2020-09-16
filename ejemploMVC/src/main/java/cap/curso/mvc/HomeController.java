@@ -45,7 +45,7 @@ public class HomeController {
 	movimientos.add(m4);
 	movimientos.add(m5);
     }
-    
+
     public void setMovimientos(List<Movimiento> movimientos) {
 	this.movimientos = movimientos;
     }
@@ -58,6 +58,9 @@ public class HomeController {
 
 	modelAndView.setViewName("login");
 
+	// se añade este objeto para rellenarlo en el jsp con el formulario de spring
+	modelAndView.addObject("persona", new Persona());
+
 	return modelAndView;
     }
 
@@ -67,6 +70,7 @@ public class HomeController {
 	return "redirect:/";
     }
 
+    // CON FORMULARIOS DE HTML5
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView loginPOST(@RequestParam(required = false, value = "usuario") String usuario,
 	    @RequestParam(value = "password", required = false) String password, ModelAndView modelAndView) {
@@ -75,18 +79,38 @@ public class HomeController {
 	    logger.info("Usuario y contraseña correctos");
 	    System.out.println("Usuario y contraseña correctos");
 
-	    // String resultado = "Has escrito el usuario " + usuario + " y la clave " +
-	    // password;
-
 	    modelAndView.setViewName("redirect:home");
 
 	    this.usuario = usuario;
 	    this.password = password;
-	    // modelAndView.addObject("resultado", resultado);
 
 	} else {
 	    logger.error("Usuario o contraseña incorrectos");
 	    System.out.println("Usuario o contraseña incorrectos");
+
+	    String resultado = "Usuario o contraseña incorrectos";
+
+	    modelAndView.setViewName("login");
+	    modelAndView.addObject("loginIncorrecto", resultado);
+	}
+
+	return modelAndView;
+    }
+
+    // CON FORMULARIOS DE SPRING
+    @RequestMapping(value = "/login2", method = RequestMethod.POST)
+    public ModelAndView loginPOST2(Persona persona, ModelAndView modelAndView) {
+
+	if (persona.getUsuario().equals("cristofer") && persona.getClave().equals("12345")) {
+	    logger.info("Usuario y contraseña correctos");
+
+	    modelAndView.setViewName("redirect:home");
+
+	    this.usuario = persona.getUsuario();
+	    this.password = persona.getClave();
+
+	} else {
+	    logger.error("Usuario o contraseña incorrectos");
 
 	    String resultado = "Usuario o contraseña incorrectos";
 
