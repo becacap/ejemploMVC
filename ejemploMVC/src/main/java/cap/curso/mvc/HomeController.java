@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jmx.export.metadata.ManagedAttribute;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,62 +53,62 @@ public class HomeController
 
 		modelAndView.setViewName("home");
 
-		Persona persona=new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
+		Persona persona = new Persona();
+		modelAndView.addObject("persona", persona);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
-		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam(required = true, value = "usuario") String usuario,
+			@RequestParam("clave") String clave, ModelAndView modelAndView)
+	{
+
+		String resultado = "Has escrito el usuario " + usuario + " y la clave " + clave;
 		modelAndView.addObject("resultado", resultado);
 		modelAndView.setViewName("home");
 		return modelAndView;
 	}
-	
-	
-	
-	
+
 	@RequestMapping("/prueba/{nombre}/{apellido}")
-	public ModelAndView path(@PathVariable("nombre") String nombre, 
-		@PathVariable("apellido") String apellido, 
-			ModelAndView modelAndView){
-		
+	public ModelAndView path(@PathVariable("nombre") String nombre, @PathVariable("apellido") String apellido,
+			ModelAndView modelAndView)
+	{
+
 		modelAndView.setViewName("home");
-		
-		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
-		modelAndView.addObject("datos",datos);
+
+		String datos = "Tu nombre es " + nombre + " y tu apellido es " + apellido;
+		modelAndView.addObject("datos", datos);
 		return modelAndView;
 	}
-	
-	
+
 	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
-		
+	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona)
+	{
+
+		if (persona.getUsuario().equals("mikel") && persona.getClave().equals("carlos"))
+		{
+			System.out.println("usuario:" + persona.getUsuario());
+			System.out.println("clave:" + persona.getClave());
+			List<Movimiento> movimientos = new ArrayList<>();
+			Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
+			Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
+			Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
+			Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
+			Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+
+			movimientos.add(m1);
+			movimientos.add(m2);
+			movimientos.add(m3);
+			movimientos.add(m4);
+			movimientos.add(m5);
+			modelAndView.addObject("movimientos", movimientos);
+			
+		}else {
+			modelAndView =  new ModelAndView("redirect:/");
+			modelAndView.addObject("modelAttribute" , new ManagedAttribute());
+			System.out.println("El usuario y la contraseña no coinciden");
+		}
 		return modelAndView;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

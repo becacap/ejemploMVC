@@ -4,7 +4,7 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Home</title>
+<!--  <title>Home</title>
 
 <style type="text/css">
 .rojo {
@@ -75,7 +75,30 @@
 		<h1 align="center">${resultado }</h1>
 		<h1 align="center">${datos }</h1>
 
-	</div>
+	</div> -->
+	<title>Login</title>
+	<h1 align="center">LOGIN</h1>
+	<spring:form action="rellenado" modelAttribute="persona">
+			<div align="center">
+				<table>
+					<tr>
+						<td>Usuario:</td>
+						<td><spring:input path="usuario"/> </td>
+					</tr>
+					<tr>
+						<td>Clave:</td>
+						<td><spring:password path="clave"/> </td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><input type="submit"
+							value="login"></td>
+
+					</tr>
+
+				</table>
+			</div>
+
+		</spring:form>
 </html>
 
 
