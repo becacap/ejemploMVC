@@ -52,62 +52,93 @@ public class HomeController
 
 		modelAndView.setViewName("home");
 
-		Persona persona=new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
+		Persona persona = new Persona();
+//		Con esta linea aparece en el formulario del usuario lo que hemos seteado
+//		persona.setUsuario("alumno del curso");
+		modelAndView.addObject("persona", persona);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
+
+//	Con este metodo envias a la vista un objeto persona que se va a tener que rellenar en el login
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public ModelAndView loginGET(ModelAndView modelAndView) {
+//		Persona persona = new Persona();
+//		modelAndView.addObject(persona);
+//		modelAndView.setViewName("login");
+//		return modelAndView;
+//	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam(required = true, value = "usuario") String usuario,
+			@RequestParam("clave") String clave, ModelAndView modelAndView)
+	{
+
+		boolean loginOK = true;
+		List<Movimiento> movs = new ArrayList<>();
+		Persona persona = new Persona();
+		String mensaje = "";
+
+		persona.setUsuario(usuario);
+		persona.setClave(clave);
+
+		Movimiento m1 = new Movimiento("01/02/2020", "Ingreso nomina", 5000);
+		Movimiento m2 = new Movimiento("12/01/2020", "recibo agua", -40);
+		Movimiento m3 = new Movimiento("09/03/2020", "pago", -100);
+		Movimiento m4 = new Movimiento("13/01/2020", "Ingreso", 50);
+		Movimiento m5 = new Movimiento("24/01/2020", "compra alimentos", -200);
+
+		movs.add(m1);
+		movs.add(m2);
+		movs.add(m3);
+		movs.add(m4);
+		movs.add(m5);
 		
-		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
-		modelAndView.addObject("resultado", resultado);
-		modelAndView.setViewName("home");
+		if (persona.getUsuario().equals("") || persona.getClave().equals(""))
+		{
+			loginOK = false;
+		}
+
+		if (loginOK == true)
+		{
+			mensaje = "Bienvenido " + usuario;
+			
+		} else
+		{
+			mensaje = "Usuario o contraseña incorrecta";
+			System.out.println(mensaje);
+		}
+          
+		modelAndView.addObject("movs", movs);
+		modelAndView.addObject("persona", persona);
+		String resultado = "Has escrito el usuario " + persona.getUsuario() + " y la clave " + persona.getClave();
+		modelAndView.addObject("mensaje", mensaje);
+		
+		System.out.println(resultado);
+//		Indica en qué página se muestran los objetos, en este caso en la home
+		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 	
-	
-	
-	
+
 	@RequestMapping("/prueba/{nombre}/{apellido}")
-	public ModelAndView path(@PathVariable("nombre") String nombre, 
-		@PathVariable("apellido") String apellido, 
-			ModelAndView modelAndView){
-		
+	public ModelAndView path(@PathVariable("nombre") String nombre, @PathVariable("apellido") String apellido,
+			ModelAndView modelAndView)
+	{
+
 		modelAndView.setViewName("home");
-		
-		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
-		modelAndView.addObject("datos",datos);
+
+		String datos = "Tu nombre es " + nombre + " y tu apellido es " + apellido;
+		modelAndView.addObject("datos", datos);
 		return modelAndView;
 	}
-	
-	
+
 	@RequestMapping("/rellenado")
-	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
-		
-		System.out.println("usuario:"+ persona.getUsuario());
-		System.out.println("clave:"+persona.getClave());
-		
+	public ModelAndView rellenado(ModelAndView modelAndView, Persona persona)
+	{
+
+		System.out.println("usuario:" + persona.getUsuario());
+		System.out.println("clave:" + persona.getClave());
+		modelAndView.setViewName("home");
 		return modelAndView;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
