@@ -7,7 +7,6 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Home</title>
-		<style><%@include file="styles.css"%></style>
 	</head>
 	
 	<body>
