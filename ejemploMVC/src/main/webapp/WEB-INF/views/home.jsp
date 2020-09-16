@@ -1,98 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring"
-	uri="http://www.springframework.org/tags/form"%>
-<%@ page session="false"%>
+<!DOCTYPE html>
 <html>
-<head>
-<title>Home</title>
 
-<style type="text/css">
-.rojo {
-	color: red;
-}
-
-.negro {
-	color: black;
-}
-</style>
-</head>
-<body>
-
-	<h1 align="center">LISTADO DE MOVIMIENTOS</h1>
-	<BR>
-
-	<div align="center">
-
-
-		<table border="1">
-			<tr>
-				<td align="center">FECHA</td>
-				<td align="center">CONCEPTO</td>
-				<td align="center">IMPORTE</td>
-			</tr>
-			<c:set var="estilo" value="negro"></c:set>
-			<c:set var="saldo" value="0" />
-			<c:forEach items="${movimientos}" var="movimiento">
-				<c:set var="saldo" value="${saldo+movimiento.importe}" />
-
-				<c:if test="${movimiento.importe lt 0 }">
-					<c:set var="estilo" value="rojo" />
-				</c:if>
-
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Home</title>
+		<style><%@include file="styles.css"%></style>
+	</head>
+	
+	<body>
+		
+		<div align="center">
+			<h1>Welcome home ${user}</h1>
+		</div>
+		
+		<div align="center">
+			
+			<table class="border">
 				<tr>
-					<td align="center">${movimiento.fecha}</td>
-					<td align="center">${movimiento.concepto}</td>
-					<td align="center" class="${estilo} }">${movimiento.importe}</td>
+					<td class="breath">Fecha</td>
+					<td class="breath">Concepto</td>
+					<td class="breath">Importe</td>
+					<td class="breath">Gastos</td>
 				</tr>
-				<c:set var="estilo" value="negro" />
-			</c:forEach>
-
-		</table>
-		<h1 align="center">Saldo: ${saldo}</h1>
-
-
-		<spring:form action="rellenado" modelAttribute="persona">
-			<div align="center">
-				<table>
+				<c:forEach var="m" items="${ movimientos }">
 					<tr>
-						<td>Usuario:</td>
-						<td><spring:input path="usuario"/> </td>
+						<td class="breath">${ m.fecha }</td>
+						<td class="breath">${ m.concepto }</td>
+						<td class="breath">${ m.importe }</td>
+						<td class="breath">${ m.importe }</td>
 					</tr>
-					<tr>
-						<td>Clave:</td>
-						<td><spring:password path="clave"/> </td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center"><input type="submit"
-							value="registro"></td>
-
-					</tr>
-
-				</table>
-			</div>
-
-		</spring:form>
-		<h1 align="center">${resultado }</h1>
-		<h1 align="center">${datos }</h1>
-
-	</div>
+				</c:forEach>
+			</table>
+			
+		</div>
+		
+	</body>
+	
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
