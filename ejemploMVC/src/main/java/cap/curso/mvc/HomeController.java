@@ -1,22 +1,17 @@
 package cap.curso.mvc;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import org.w3c.dom.NodeList;
 
 import cap.curso.mvc.beans.Movimiento;
 import cap.curso.mvc.beans.Persona;
@@ -28,8 +23,31 @@ import cap.curso.mvc.beans.Persona;
 public class HomeController {
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-    private String usuario = null;
-    private String password = null;
+
+    private String usuario;
+    private String password;
+    private List<Movimiento> movimientos;
+
+    public HomeController() {
+	usuario = null;
+	password = null;
+	movimientos = new ArrayList<>();
+
+	Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
+	Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
+	Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
+	Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
+	Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+
+	movimientos.add(m1);
+	movimientos.add(m2);
+	movimientos.add(m3);
+	movimientos.add(m4);
+	movimientos.add(m5);
+    }
+
+    /***********************************************************************************************************/
+    // LOGIN
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView loginGET(ModelAndView modelAndView) {
@@ -56,9 +74,10 @@ public class HomeController {
 	    // String resultado = "Has escrito el usuario " + usuario + " y la clave " +
 	    // password;
 
+	    modelAndView.setViewName("redirect:home");
+
 	    this.usuario = usuario;
 	    this.password = password;
-	    modelAndView.setViewName("redirect:home");
 	    // modelAndView.addObject("resultado", resultado);
 
 	} else {
@@ -74,21 +93,11 @@ public class HomeController {
 	return modelAndView;
     }
 
+    /***********************************************************************************************************/
+    // HOME
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView home(ModelAndView modelAndView) {
-
-	List<Movimiento> movimientos = new ArrayList<>();
-	Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
-	Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
-	Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
-	Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
-	Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
-
-	movimientos.add(m1);
-	movimientos.add(m2);
-	movimientos.add(m3);
-	movimientos.add(m4);
-	movimientos.add(m5);
 
 	modelAndView.setViewName("home");
 
@@ -103,6 +112,61 @@ public class HomeController {
 
 	return modelAndView;
     }
+
+    @RequestMapping("/orderByDate")
+    public ModelAndView orderByDate(ModelAndView modelAndView) {
+
+	modelAndView.setViewName("redirect:/home");
+
+	movimientos.sort(new Comparator<Movimiento>() {
+	    @Override
+	    public int compare(Movimiento o1, Movimiento o2) {
+		return o1.getFecha().compareTo(o2.getFecha());
+	    }
+	});
+
+	return modelAndView;
+    }
+
+    @RequestMapping("/orderByConcept")
+    public ModelAndView orderByConcept(ModelAndView modelAndView) {
+
+	modelAndView.setViewName("redirect:/home");
+
+	movimientos.sort(new Comparator<Movimiento>() {
+	    @Override
+	    public int compare(Movimiento o1, Movimiento o2) {
+		return o1.getConcepto().compareTo(o2.getConcepto());
+	    }
+	});
+
+	return modelAndView;
+    }
+
+    @RequestMapping("/orderByImport")
+    public ModelAndView orderByImport(ModelAndView modelAndView) {
+
+	modelAndView.setViewName("redirect:/home");
+
+	movimientos.sort(new Comparator<Movimiento>() {
+	    @Override
+	    public int compare(Movimiento o1, Movimiento o2) {
+		int result = 0;
+		int importeA = o1.getImporte();
+		int importeB = o2.getImporte();
+		if (importeB < importeA)
+		    result = -1;
+		else if (importeB > importeA)
+		    result = 1;
+
+		return result;
+	    }
+	});
+
+	return modelAndView;
+    }
+
+    /***********************************************************************************************************/
 
     /*
      * @RequestMapping("/prueba/{nombre}/{apellido}") public ModelAndView

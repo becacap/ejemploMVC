@@ -2,11 +2,16 @@
 <%@ taglib prefix="spring"
 	uri="http://www.springframework.org/tags/form"%>
 <%@ page session="false"%>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Home</title>
 
 <style type="text/css">
+body {
+	font-family: 'Mukta', sans-serif;
+}
+
 .rojo {
 	color: red;
 }
@@ -26,9 +31,9 @@
 
 		<table border="1">
 			<tr>
-				<td align="center">FECHA</td>
-				<td align="center">CONCEPTO</td>
-				<td align="center">IMPORTE</td>
+				<td align="center"><a href="orderByDate">FECHA</a></td>
+				<td align="center"><a href="orderByConcept">CONCEPTO</a></td>
+				<td align="center"><a href="orderByImport">IMPORTE</a></td>
 			</tr>
 			<c:set var="estilo" value="negro"></c:set>
 			<c:set var="saldo" value="0" />
