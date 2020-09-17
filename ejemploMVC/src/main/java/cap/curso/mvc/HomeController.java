@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.ws.RequestWrapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,44 +34,88 @@ public class HomeController
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
+	///////////////////////////					HOME					//////////////////////////////////////
+
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView modelAndView)
 	{
-
-		List<Movimiento> movimientos = new ArrayList<>();
-		Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
-		Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
-		Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
-		Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
-		Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
-
-		movimientos.add(m1);
-		movimientos.add(m2);
-		movimientos.add(m3);
-		movimientos.add(m4);
-		movimientos.add(m5);
-		modelAndView.addObject("movimientos", movimientos);
-
 		modelAndView.setViewName("home");
-
-		Persona persona=new Persona();
-		persona.setUsuario("alumno del curso");
-		modelAndView.addObject("persona",persona);
-		return modelAndView;
+		return modelAndView;	
+		
 	}
 	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
+	
+	////////////////////////////					LOGIN					/////////////////////////////////////
+
+	
+	@RequestMapping(value ="/login", method = RequestMethod.POST)
+	public ModelAndView userLogin(ModelAndView modelAndView) {
+
+		//System.out.println("Al menos ha entrado en botoncillo");
+		modelAndView.setViewName("login");
+		return modelAndView;
+		
+	}
+	
+	
+	
+	
+	
+	
+	////////////////////////////					ACCOUNT					/////////////////////////////////////
+
+	@RequestMapping("/account")
+	public ModelAndView showAccount(ModelAndView modelAndView, Persona persona) {
+		
+		modelAndView.addObject("Persona", persona);
+		
+		if (persona.getUsuario().equals("Jorge") && persona.getClave().equals("dodo")) {
+			
+			System.out.println("Aaaah que es correcto");
+			
+			List<Movimiento> movimientos = new ArrayList<>();
+			Movimiento m1 = new Movimiento("01/01/2020", "Ingreso", 100);
+			Movimiento m2 = new Movimiento("05/01/2020", "Pago tarjeta", -50);
+			Movimiento m3 = new Movimiento("09/01/2020", "recibo luz", -25);
+			Movimiento m4 = new Movimiento("15/01/2020", "Ingreso nomina", 5000);
+			Movimiento m5 = new Movimiento("21/01/2020", "Compra bici", -1500);
+
+			movimientos.add(m1);
+			movimientos.add(m2);
+			movimientos.add(m3);
+			movimientos.add(m4);
+			movimientos.add(m5);
+			modelAndView.addObject("movimientos", movimientos);
+
+			modelAndView.setViewName("account");
+			return modelAndView;
+		}
+		else {
+			
+			
+		    modelAndView.setViewName("login");
+		    return modelAndView;
+		}
+		
+		
+	}
+	
+	
+	
+	/*@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam(required =true, value="usuario") String usuario,@RequestParam("clave") String clave, ModelAndView modelAndView) {
 		
 		String resultado="Has escrito el usuario "+usuario+" y la clave "+clave;
 		modelAndView.addObject("resultado", resultado);
 		modelAndView.setViewName("home");
 		return modelAndView;
-	}
+	}*/
 	
 	
 	
-	
+	/*
 	@RequestMapping("/prueba/{nombre}/{apellido}")
 	public ModelAndView path(@PathVariable("nombre") String nombre, 
 		@PathVariable("apellido") String apellido, 
@@ -80,9 +126,9 @@ public class HomeController
 		String datos="Tu nombre es "+nombre+ " y tu apellido es "+apellido;
 		modelAndView.addObject("datos",datos);
 		return modelAndView;
-	}
+	}*/
 	
-	
+	/*
 	@RequestMapping("/rellenado")
 	public ModelAndView rellenado(ModelAndView   modelAndView, Persona persona) {
 		
@@ -90,24 +136,9 @@ public class HomeController
 		System.out.println("clave:"+persona.getClave());
 		
 		return modelAndView;
-	}
+	}*/
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
